@@ -3,6 +3,11 @@ name = "include_file_path"
 version = "0.1.0"
 edition = "2021"
 authors = ["Swoorup Joshi"]
+license = "MIT"
+description = "Macro to returns absolute path of a specified file"
+documentation = "https://docs.rs/include_file_path"
+repository = "https://github.com/Swoorup/include_file_path"
+readme = "README.md"
 
 [lib]
 proc-macro = true
