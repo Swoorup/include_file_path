@@ -1,7 +1,7 @@
 # `include_file_path` macro library
 [![Latest Version](https://img.shields.io/crates/v/include_file_path.svg)](https://crates.io/crates/include_file_path) [![docs.rs](https://docs.rs/include_file_path/badge.svg)](https://docs.rs/include_file_path)  
 
-This Rust project provides a procedural macro `include_file_path!` that returns the absolute path of a file. The macro accepts both relative and absolute paths, and it will panic if the specified file does not exist.
+This Rust project provides a procedural macro `include_file_path!` that returns the absolute path of a file or directory. The macro accepts both relative and absolute paths, and it will panic if the specified file does not exist.
 
 ## Usage
 
