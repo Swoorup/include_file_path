@@ -1,5 +1,4 @@
 #![feature(proc_macro_span)]
-#![feature(absolute_path)]
 
 extern crate proc_macro;
 
@@ -39,7 +38,7 @@ use syn::{parse_macro_input, LitStr};
 /// use include_file_path::include_file_path;
 ///
 /// const FILE: &'static str = include_file_path!("/etc/passwd");
-/// assert_eq!(FILE, "/etc/passwd");
+/// assert!(FILE.ends_with("/etc/passwd"));
 /// ```
 #[proc_macro]
 pub fn include_file_path(input: TokenStream) -> TokenStream {
@@ -51,18 +50,16 @@ pub fn include_file_path(input: TokenStream) -> TokenStream {
     let path = std::path::Path::new(&path);
 
     // Check if the path is absolute
-    let absolute_path = if path.is_absolute() {
+    let raw_path = if path.is_absolute() {
         // If the path is absolute, use it as is
         path.to_path_buf()
     } else {
-        std::path::absolute(caller_file.parent().unwrap().join(path))
-            .unwrap_or_else(|_| panic!("Failed to get absolute path for {}", path.display()))
+        caller_file.parent().unwrap().join(path)
     };
 
-    // Check if the file exists
-    if !absolute_path.exists() {
-        panic!("File does not exist: {}", absolute_path.display());
-    }
+    let absolute_path = raw_path
+        .canonicalize()
+        .unwrap_or_else(|_| panic!("Failed to canonicalize path: {}", raw_path.display()));
 
     // Convert the path to a string
     let absolute_path_str = absolute_path.to_str().unwrap();

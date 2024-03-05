@@ -3,7 +3,7 @@ use include_file_path::include_file_path;
 #[test]
 fn test_absolute_include_file_path() {
     const PATH: &str = include_file_path!("/home");
-    assert_eq!(PATH, "/home");
+    assert!(PATH.ends_with("/home"));
 }
 
 #[test]
